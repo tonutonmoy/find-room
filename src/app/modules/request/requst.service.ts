@@ -1,0 +1,119 @@
+import { PrismaClient } from '@prisma/client';
+import { IRequest } from './requst.interface';
+
+
+
+
+const prisma = new PrismaClient();
+
+
+;
+
+
+export const createRequestIntoDB = async (payload: IRequest | any) => {
+
+  const data= await prisma.request.create({
+    data:payload
+  })
+
+   return data
+};
+
+
+const getMyRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; limit: number }) => {
+
+
+  const result = await prisma.request.findMany({
+    where:{userId:id},skip,
+    take: limit,
+  include:{user:{select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}},listing:true}
+
+  });
+  const total = await prisma.request.count({
+    where: { userId: id },
+  });
+
+  return {
+    data: result,
+    total,
+  };
+};
+
+const viewRequestIntoDB = async (id:string,) => {
+
+
+  const result = await prisma.user.findFirst({
+    where:{id},
+    
+  select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}
+
+  });
+
+  return  result
+};
+
+const getNotificationIntoDB = async (id: string) => {
+  const result = await prisma.notification.findFirst({
+    where: {
+      reciverId: id,
+    },
+    include: {
+      sender: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phoneNumber: true,
+        },
+      },
+      reciver: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phoneNumber: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
+
+export const updateRequestIntoDB = async (id: string, senderId:string,requestStatus: string|any) => {
+
+
+  const updatedRequest = await prisma.request.update({
+    where: { id:id },
+    data:{
+      requestStatus:requestStatus.requestStatus
+    }
+  });
+
+  if (updatedRequest) {
+    await prisma.notification.create({
+      data: {
+        senderId: senderId,
+        reciverId: updatedRequest.userId, // assuming this is the request sender (the one who should be notified)
+        requestStatus:updatedRequest.requestStatus
+      },
+    });
+
+    return updatedRequest
+  }
+
+
+ 
+};
+
+export const RequestDBServices = {
+  getMyRequestIntoDB,
+  createRequestIntoDB,
+  updateRequestIntoDB,
+  viewRequestIntoDB,
+  getNotificationIntoDB
+
+};
