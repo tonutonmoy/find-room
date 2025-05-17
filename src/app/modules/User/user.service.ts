@@ -19,6 +19,21 @@ interface UserWithOptionalPassword extends Omit<User, 'password'> {
 }
 
 const registerUserIntoDB = async (payload: IUser|any) => {
+
+   const isUserExist = await prisma.user.findFirst({
+    where: {email:payload.email
+
+    },
+  });
+
+
+
+  if(isUserExist){
+
+        throw new AppError(httpStatus.NOT_ACCEPTABLE, 'The email is already exist!');
+
+  }
+
   const hashedPassword: string = await bcrypt.hash(payload.password, 12);
   const userData = {
     ...payload,
