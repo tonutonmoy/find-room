@@ -7,7 +7,16 @@ const requestValidation = z.object({
     }),
     requestStatus: z.enum(['Pending', 'Accepted', 'Rejected', 'Expired'], {
       required_error: 'Request status is required!',
+    }).optional(),
+       matchScore: z.number({
+      required_error: 'matchScore is required!',
+    }).optional(),
+    rating: z.number({
+      required_error: 'rating is required!',
     }),
+    searchParams: z.record(z.any(), {
+      required_error: 'searchParams is required!',
+    }).optional(),
   }),
 });
 

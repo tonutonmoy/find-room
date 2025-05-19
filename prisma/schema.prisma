@@ -40,8 +40,6 @@
 //   SUSPENDED
 // }
 
-
-
 // enum ListingStatus {
 //   Published
 //   Expired
@@ -54,8 +52,6 @@
 //   Rejected
 //   Expired
 // }
-
-
 
 // model User {
 //   id            String         @id @default(auto()) @map("_id") @db.ObjectId
@@ -82,21 +78,16 @@
 //   emailVerificationTokenExpires DateTime?
 //   createdAt     DateTime       @default(now())
 //   updatedAt     DateTime       @updatedAt
- 
-  
-
 
 //   @@map("users")
-  
+
 //   listing Listing[]
 //   request request[]
 //   saveRoom saveRoom[]
-  
+
 //   senderNotification notification[] @relation("sender")
 //   reciverNotification notification[] @relation("reciver")
 // }
-
-
 
 // model Listing {
 //   id              String         @id @default(auto()) @map("_id") @db.ObjectId
@@ -114,8 +105,7 @@
 //   size            Float
 //   availableFrom   DateTime
 //   rentCHF            Float
-  
-  
+
 //   amenitiesAndServices String[]
 //   additionalExpenses Boolean     @default(true)
 //   houseAtmosphere String
@@ -141,18 +131,13 @@
 //   roommate    Roommate[]
 //    createdAt     DateTime       @default(now())
 //   updatedAt     DateTime       @updatedAt
-  
-
- 
-
 
 //   @@map("listings")
- 
+
 //   request request[]
 //   saveRoom saveRoom[]
-  
-// }
 
+// }
 
 // model Roommate {
 //   id               String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -178,7 +163,7 @@
 
 // model request{
 //   id               String   @id @default(auto()) @map("_id") @db.ObjectId
-   
+
 //   userId   String @db.ObjectId
 //   user User  @relation(references: [id], fields: [userId])
 //   requestStatus RequestStatus @default(Pending)
@@ -190,35 +175,28 @@
 
 // model saveRoom{
 //   id               String   @id @default(auto()) @map("_id") @db.ObjectId
-   
+
 //   userId   String @db.ObjectId
 //   user User  @relation(references: [id], fields: [userId])
- 
+
 //   listingId    String @db.ObjectId
 //   listing Listing  @relation(references: [id], fields: [listingId])
 //    createdAt     DateTime       @default(now())
 //   updatedAt     DateTime       @updatedAt
 // }
 
-
-
 // model notification{
 //   id               String   @id @default(auto()) @map("_id") @db.ObjectId
-   
+
 //   senderId   String @db.ObjectId
 //   reciverId    String @db.ObjectId
 //   sender User  @relation("sender",references: [id], fields: [senderId])
 //   reciver User  @relation("reciver",references: [id], fields: [reciverId])
 //   requestStatus  RequestStatus 
-  
- 
+
 //    createdAt     DateTime       @default(now())
 //   updatedAt     DateTime       @updatedAt
 // }
-
-
-
-
 
 generator client {
   provider = "prisma-client-js"
@@ -231,7 +209,7 @@ datasource db {
 
 enum Language {
   English
-  German 
+  German
   French
   Italian
 }
@@ -276,152 +254,154 @@ enum RequestStatus {
 }
 
 model User {
-  id                             String         @id @default(auto()) @map("_id") @db.ObjectId
-  firstName                      String
-  lastName                       String
-  email                          String         @unique
-  image                          String[]  
-  phoneNumber                    String?
-  dateOfBirth                    DateTime?
-  gender                         Gender?
-  language                       Language?
-  school                         String?
-  interests                      String[]       @default([])
-  university                     String?
-  instagram                      String?
-  password                       String
-  refreshToken                   String?
-  role                           UserRole       @default(USER)
-  status                         UserStatus     @default(ACTIVE)
-  otp                            String?
-  otpExpiry                      DateTime?
-  isEmailVerified                Boolean        @default(false)
-  emailVerificationToken         String?
-  emailVerificationTokenExpires  DateTime?
-  createdAt                      DateTime       @default(now())
-  updatedAt                      DateTime       @updatedAt
+  id                            String     @id @default(auto()) @map("_id") @db.ObjectId
+  firstName                     String
+  lastName                      String
+  email                         String     @unique
+  image                         String[]
+  phoneNumber                   String?
+  dateOfBirth                   DateTime?
+  gender                        Gender?
+  language                      Language?
+  school                        String?
+  interests                     String[]   @default([])
+  university                    String?
+  instagram                     String?
+  password                      String
+  refreshToken                  String?
+  role                          UserRole   @default(USER)
+  status                        UserStatus @default(ACTIVE)
+  otp                           String?
+  otpExpiry                     DateTime?
+  isEmailVerified               Boolean    @default(false)
+  emailVerificationToken        String?
+  emailVerificationTokenExpires DateTime?
+  createdAt                     DateTime   @default(now())
+  updatedAt                     DateTime   @updatedAt
+
+  listing  Listing[]  @relation("UserListings")
+  request  request[]  @relation("UserRequests")
+  saveRoom saveRoom[] @relation("UserSavedRooms")
+
+  senderNotification  notification[] @relation("sender")
+  reciverNotification notification[] @relation("reciver")
 
   @@map("users")
-
-  listing                        Listing[]      @relation("UserListings")
-  request                        request[]      @relation("UserRequests")
-  saveRoom                       saveRoom[]     @relation("UserSavedRooms")
-
-  senderNotification             notification[] @relation("sender")
-  reciverNotification            notification[] @relation("reciver")
 }
 
 model Listing {
-  id                    String         @id @default(auto()) @map("_id") @db.ObjectId
-  title                 String
-  description           String
-  preview               String
-  video                 String[]
-  image                 String[]
-  streetNumber          String
-  postCode              String
-  city                  String
-  floor                 Int
-  rooms                 Float
-  bathrooms             Float
-  size                  Float
-  availableFrom         DateTime
-  rentCHF               Float
-  amenitiesAndServices  String[]
-  additionalExpenses    Boolean        @default(true)
-  houseAtmosphere       String
-  externalGuests        String
-  smokingAllowed        String
-  clearScheduleDefine   String
-  currentyPets          String
-  newPets               String
-  cooking               String
-  dinner                String
-  spendingFreeTime      String
-  language              String
-  age                   Int
-  gender                String
-  status                ListingStatus  @default(Published)
-  location              Json
-  searchRadius          Int            @default(0)
-  userId                String         @db.ObjectId
+  id                   String        @id @default(auto()) @map("_id") @db.ObjectId
+  title                String
+  description          String
+  preview              String
+  video                String[]
+  image                String[]
+  streetNumber         String
+  postCode             String
+  city                 String
+  floor                Int
+  rooms                Float
+  bathrooms            Float
+  size                 Float
+  availableFrom        DateTime
+  rentCHF              Float
+  amenitiesAndServices String[]
+  additionalExpenses   Boolean       @default(true)
+  houseAtmosphere      String
+  externalGuests       String
+  smokingAllowed       String
+  clearScheduleDefine  String
+  currentyPets         String
+  newPets              String
+  cooking              String
+  dinner               String
+  spendingFreeTime     String
+  language             String
+  age                  Int
+  gender               String
+  status               ListingStatus @default(Published)
+  location             Json
+  searchRadius         Int           @default(0)
+  userId               String        @db.ObjectId
 
-  user                  User           @relation("UserListings", references: [id], fields: [userId], onDelete: Cascade)
+  user User @relation("UserListings", references: [id], fields: [userId], onDelete: Cascade)
 
-  createAt              DateTime       @default(now())
-  createdAt             DateTime       @default(now())
-  updatedAt             DateTime       @updatedAt
+  createAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  roommate              Roommate[]
-  request               request[]      @relation("ListingRequests")
-  saveRoom              saveRoom[]     @relation("ListingSavedRooms")
+  roommate Roommate[]
+  request  request[]  @relation("ListingRequests")
+  saveRoom saveRoom[] @relation("ListingSavedRooms")
 
   @@map("listings")
 }
 
 model Roommate {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  image           String
-  email           String
-  firstName       String
-  lastName        String
-  dateOfBirth     DateTime
-  languageSpoken  String
-  age             Int
-  gender          String
-  interests       String[]
-  university      String
-  instagram       String?
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  image          String
+  email          String
+  firstName      String
+  lastName       String
+  dateOfBirth    DateTime
+  languageSpoken String
+  age            Int
+  gender         String
+  interests      String[]
+  university     String
+  instagram      String?
 
-  listingId       String    @db.ObjectId
-  listing         Listing   @relation(references: [id], fields: [listingId], onDelete: Cascade)
+  listingId String  @db.ObjectId
+  listing   Listing @relation(references: [id], fields: [listingId], onDelete: Cascade)
 
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("roommates")
 }
 
 model request {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  userId         String        @db.ObjectId
-  user           User          @relation("UserRequests", references: [id], fields: [userId], onDelete: Cascade)
+  userId String @db.ObjectId
+  user   User   @relation("UserRequests", references: [id], fields: [userId], onDelete: Cascade)
 
-  listingId      String        @db.ObjectId
-  listing        Listing       @relation("ListingRequests", references: [id], fields: [listingId], onDelete: Cascade)
-
-  requestStatus  RequestStatus @default(Pending)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  listingId     String        @db.ObjectId
+  listing       Listing       @relation("ListingRequests", references: [id], fields: [listingId], onDelete: Cascade)
+  matchScore    Int?
+  rating        Int
+  searchParams  Json?
+  requestStatus RequestStatus @default(Pending)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model saveRoom {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  userId     String   @db.ObjectId
-  user       User     @relation("UserSavedRooms", references: [id], fields: [userId], onDelete: Cascade)
+  userId String @db.ObjectId
+  user   User   @relation("UserSavedRooms", references: [id], fields: [userId], onDelete: Cascade)
 
-  listingId  String   @db.ObjectId
-  listing    Listing  @relation("ListingSavedRooms", references: [id], fields: [listingId], onDelete: Cascade)
-  matchScore  Int
-
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  listingId    String   @db.ObjectId
+  listing      Listing  @relation("ListingSavedRooms", references: [id], fields: [listingId], onDelete: Cascade)
+  matchScore   Int?
+  rating       Int
+  searchParams Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model notification {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  senderId       String         @db.ObjectId
-  reciverId      String         @db.ObjectId
+  senderId  String @db.ObjectId
+  reciverId String @db.ObjectId
 
-  sender         User           @relation("sender", references: [id], fields: [senderId], onDelete: Cascade)
-  reciver        User           @relation("reciver", references: [id], fields: [reciverId], onDelete: Cascade)
+  sender  User @relation("sender", references: [id], fields: [senderId], onDelete: Cascade)
+  reciver User @relation("reciver", references: [id], fields: [reciverId], onDelete: Cascade)
 
-  requestStatus  RequestStatus
+  requestStatus RequestStatus
 
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-

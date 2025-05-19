@@ -8,6 +8,9 @@ export interface IRequest {
   requestStatus: RequestStatus; // Enum type (define this enum separately)
   listingId: string;
   listing: IListing; // Define or import the IListing interface
+   rating  :    number;
+   matchScore:number;
+ searchParams :  object;
 }
 export enum RequestStatus {
   Pending = "Pending",

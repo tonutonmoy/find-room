@@ -36,11 +36,11 @@ export const createRequestIntoDB = async (payload: IRequest | any) => {
 
 const getMyRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; limit: number }) => {
 
-
+ 
   const result = await prisma.request.findMany({
     where:{userId:id},skip,
     take: limit,
-  include:{user:{select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}},listing:true}
+  include:{listing:{include:{request:true,roommate:true}}}
 
   });
 
@@ -98,6 +98,18 @@ const getNotificationIntoDB = async (id: string) => {
 };
 
 const cancelRequestIntoDB = async (id: string) => {
+
+ 
+
+  const isExist= await prisma.request.findFirst({where:{id}})
+
+  if(!isExist){
+ 
+        throw new AppError(httpStatus.NOT_FOUND, 'Requst not found');
+   
+
+
+  }
 
 
   const result = await prisma.request.delete({

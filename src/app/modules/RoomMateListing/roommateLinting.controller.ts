@@ -26,6 +26,8 @@ const addRoomMateListing = catchAsync(async (req, res) => {
 const getFilteredRoomMateListings = catchAsync(async (req, res) => {
   const { skip, limit, page } = calculatePagination(req.query);
 
+
+  
   const filters: any = {
     minRent: req.query.minRent || 0,
     maxRent: req.query.maxRent || 10000,
@@ -51,7 +53,7 @@ const getFilteredRoomMateListings = catchAsync(async (req, res) => {
 
   const { data, total } = await RoomMateListingDBServices.getFilteredRoomMateListingsIntoDB(
     filters,
-    { skip, limit }
+    { skip, limit },req.query
   );
 
   sendResponse(res, {

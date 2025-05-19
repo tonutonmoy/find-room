@@ -59,7 +59,7 @@ const viewRequest = catchAsync(async (req, res) => {
 
 const updateRequest = catchAsync(async (req, res) => {
 
-
+console.log('jejejejejejjejejejejssssssssssssssssssssssssssssssssssejejjejejejej')
 
   const  data= await RequestDBServices.updateRequestIntoDB(req.params.id,req.user.userId,req.body);
 
@@ -76,7 +76,7 @@ const updateRequest = catchAsync(async (req, res) => {
 
 const cancelRequest = catchAsync(async (req, res) => {
 
-
+ console.log('jejejejejejjejejejejejejjejejejej')
 
   const  data= await RequestDBServices.cancelRequestIntoDB(req.params.id);
 
