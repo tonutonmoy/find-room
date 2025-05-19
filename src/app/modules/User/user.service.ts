@@ -90,7 +90,17 @@ const getMyProfileFromDB = async (id: string) => {
       firstName: true,
       lastName: true,
       email: true,
+      image: true,
+      phoneNumber: true,
+      dateOfBirth: true,
+      gender: true,
+      language: true,
+      school: true,
+      interests: true,
+      university: true,
+      instagram: true,
       role: true,
+      status: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -107,13 +117,24 @@ const getUserDetailsFromDB = async (id: string) => {
       firstName: true,
       lastName: true,
       email: true,
+      image: true,
+      phoneNumber: true,
+      dateOfBirth: true,
+      gender: true,
+      language: true,
+      school: true,
+      interests: true,
+      university: true,
+      instagram: true,
       role: true,
+      status: true,
       createdAt: true,
       updatedAt: true,
     },
   });
   return user;
 };
+
 
 // const updateMyProfileIntoDB = async (id: string, payload: any) => {
 //   const userProfileData = payload.Profile;

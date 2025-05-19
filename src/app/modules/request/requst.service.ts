@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { IRequest } from './requst.interface';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 
 
@@ -11,6 +13,18 @@ const prisma = new PrismaClient();
 
 
 export const createRequestIntoDB = async (payload: IRequest | any) => {
+
+  const {listingId}=payload;
+
+  const isExist= await prisma.listing.findFirst({where:{id:listingId}})
+
+  if(!isExist){
+ 
+        throw new AppError(httpStatus.NOT_FOUND, 'listing not found');
+   
+
+
+  }
 
   const data= await prisma.request.create({
     data:payload
@@ -29,6 +43,7 @@ const getMyRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; lim
   include:{user:{select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}},listing:true}
 
   });
+
   const total = await prisma.request.count({
     where: { userId: id },
   });
@@ -82,6 +97,20 @@ const getNotificationIntoDB = async (id: string) => {
   return result;
 };
 
+const cancelRequestIntoDB = async (id: string) => {
+
+
+  const result = await prisma.request.delete({
+    where: { id:id },
+    
+  });
+
+
+
+    return result
+  }
+
+
 
 export const updateRequestIntoDB = async (id: string, senderId:string,requestStatus: string|any) => {
 
@@ -106,6 +135,8 @@ export const updateRequestIntoDB = async (id: string, senderId:string,requestSta
   }
 
 
+
+
  
 };
 
@@ -114,6 +145,7 @@ export const RequestDBServices = {
   createRequestIntoDB,
   updateRequestIntoDB,
   viewRequestIntoDB,
-  getNotificationIntoDB
+  getNotificationIntoDB,
+  cancelRequestIntoDB
 
 };

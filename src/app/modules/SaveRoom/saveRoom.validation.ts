@@ -5,6 +5,9 @@ const requestValidation = z.object({
     listingId: z.string({
       required_error: 'Listing ID is required!',
     }),
+    matchScore: z.number({
+      required_error: 'matchScore  is required!',
+    }),
  
   }),
 });

@@ -11,6 +11,8 @@ const prisma = new PrismaClient();
 
 
 export const createSaveRoomIntoDB = async (payload: ISaveRoom | any) => {
+
+  console.log(payload)
   const isRoomExisting = await prisma.saveRoom.findFirst({
     where: {
       userId: payload.userId,
@@ -40,16 +42,34 @@ export const createSaveRoomIntoDB = async (payload: ISaveRoom | any) => {
 
 
 
-const getSaveRoomIntoDB = async (id:string,  { skip, limit }: { skip: number; limit: number }) => {
-
-
+const getSaveRoomIntoDB = async (
+  id: string,
+  { skip, limit }: { skip: number; limit: number }
+) => {
   const result = await prisma.saveRoom.findMany({
-    where:{userId:id}, skip,
+    where: { userId: id },
+    skip,
     take: limit,
-  include:{user:{select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}},listing:true}
-
+    include: {
+      user: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phoneNumber: true,
+        },
+      },
+      listing: {
+        include: {
+          roommate: true,
+          request:true
+        },
+      },
+    },
   });
- const total = await prisma.saveRoom.count({
+
+  const total = await prisma.saveRoom.count({
     where: { userId: id },
   });
 
@@ -57,9 +77,8 @@ const getSaveRoomIntoDB = async (id:string,  { skip, limit }: { skip: number; li
     data: result,
     total,
   };
-
- 
 };
+
 
 
 

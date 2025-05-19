@@ -69,6 +69,23 @@ const updateRequest = catchAsync(async (req, res) => {
   
     data,
   });
+
+
+});
+
+
+const cancelRequest = catchAsync(async (req, res) => {
+
+
+
+  const  data= await RequestDBServices.cancelRequestIntoDB(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: ' Request cancel retrieved successfully',
+  
+    data,
+  });
 });
 
 
@@ -93,7 +110,8 @@ export const RequesListingControllers = {
   getMyRequest,
   updateRequest,
   viewRequest,
-  getNotification
+  getNotification,
+  cancelRequest
 
   
 };

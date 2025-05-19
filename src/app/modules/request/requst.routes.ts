@@ -30,6 +30,10 @@ router.put(
   '/:id',auth(),
   RequesListingControllers.updateRequest,
 );
+router.put(
+  '/cancel/:id',auth(),
+  RequesListingControllers.cancelRequest,
+);
 
 
 export const RequestRouters = router;
