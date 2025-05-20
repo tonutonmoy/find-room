@@ -25,10 +25,31 @@ const createRequest = catchAsync(async (req, res) => {
 });
 
 
-const getMyRequest = catchAsync(async (req, res) => {
+const getMySendRequest = catchAsync(async (req, res) => {
   const{skip,limit,page}=  calculatePagination({})
 
-  const { data, total }= await RequestDBServices.getMyRequestIntoDB(req.user.userId,{ skip, limit });
+  const { data, total }= await RequestDBServices.getMySendRequestIntoDB(req.user.userId,{ skip, limit });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'May Request retrieved successfully',
+    meta: {
+      limit,
+      page,
+      total,
+      totalPage: Math.ceil(total / limit),
+    
+    },
+    data,
+  });
+
+
+
+});
+const getMyReceiveRequest = catchAsync(async (req, res) => {
+  const{skip,limit,page}=  calculatePagination({})
+
+  const { data, total }= await RequestDBServices.getMyReceiveRequestIntoDB(req.params.id,{ skip, limit });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -45,13 +66,12 @@ const getMyRequest = catchAsync(async (req, res) => {
 });
 
 
-const viewRequest = catchAsync(async (req, res) => {
 
 
 
+const viewRequestUser = catchAsync(async (req, res) => {
 
-  const data= await RequestDBServices.viewRequestIntoDB(req.params.id);
-
+  const data= await RequestDBServices.viewRequestUserIntoDB(req.params.id);
 
   
   sendResponse(res, {
@@ -112,11 +132,12 @@ const getNotification = catchAsync(async (req, res) => {
 
 export const RequesListingControllers = {
   createRequest,
-  getMyRequest,
+  getMySendRequest,
   updateRequest,
-  viewRequest,
+  viewRequestUser,
   getNotification,
-  cancelRequest
+  cancelRequest,
+  getMyReceiveRequest
 
   
 };

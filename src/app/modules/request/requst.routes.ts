@@ -19,16 +19,20 @@ router.post(
   RequesListingControllers.createRequest,
 );
 router.get(
-  '/',auth(),
-  RequesListingControllers.getMyRequest,
+  '/sendRequest',auth(),
+  RequesListingControllers.getMySendRequest,
+);
+router.get(
+  '/receiveRequest/:id',auth(),
+  RequesListingControllers.getMyReceiveRequest,
 );
 router.get(
   '/notification',auth(),
   RequesListingControllers.getNotification,
 );
 router.get(
-  '/viewRequest/:id',auth(),
-  RequesListingControllers.viewRequest,
+  '/viewRequestUser/:id',auth(),
+  RequesListingControllers.viewRequestUser,
 );
 router.put(
   '/:id',auth(),

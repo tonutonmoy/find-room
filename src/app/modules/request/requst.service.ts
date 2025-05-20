@@ -34,7 +34,8 @@ export const createRequestIntoDB = async (payload: IRequest | any) => {
 };
 
 
-const getMyRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; limit: number }) => {
+
+const getMySendRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; limit: number }) => {
 
  
   const result = await prisma.request.findMany({
@@ -54,13 +55,36 @@ const getMyRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; lim
   };
 };
 
-const viewRequestIntoDB = async (id:string,) => {
+
+const getMyReceiveRequestIntoDB = async (id:string,{ skip, limit }: { skip: number; limit: number }) => {
+
+ 
+  const result = await prisma.listing.findMany({
+    where:{id:id},skip,
+    take: limit,
+  include:{request:{include:{user:{ select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true,image:true}}}}}
+
+  });
+
+  const total = await prisma.request.count({
+    where: { userId: id },
+  });
+
+  return {
+    data: result,
+    total,
+  };
+};
+
+
+
+const viewRequestUserIntoDB = async (id:string,) => {
 
 
   const result = await prisma.user.findFirst({
     where:{id},
     
-  select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}
+  select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true,image:true,age:true,school:true,interests:true}
 
   });
 
@@ -71,6 +95,8 @@ const viewRequestIntoDB = async (id:string,) => {
 
   return  result
 };
+
+
 
 const getNotificationIntoDB = async (id: string) => {
   const result = await prisma.notification.findFirst({
@@ -167,11 +193,12 @@ export const updateRequestIntoDB = async (id: string, senderId:string,requestSta
 };
 
 export const RequestDBServices = {
-  getMyRequestIntoDB,
+  getMySendRequestIntoDB,
   createRequestIntoDB,
   updateRequestIntoDB,
-  viewRequestIntoDB,
+  viewRequestUserIntoDB,
   getNotificationIntoDB,
-  cancelRequestIntoDB
+  cancelRequestIntoDB,
+  getMyReceiveRequestIntoDB
 
 };
