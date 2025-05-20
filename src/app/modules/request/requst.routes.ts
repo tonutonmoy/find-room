@@ -8,6 +8,10 @@ import { RequestValidation } from './requst.validation';
 
 
 const router = express.Router();
+router.put(
+  '/cancel/:id',auth(),
+  RequesListingControllers.cancelRequest,
+);
 
 router.post(
   '/',auth(),
@@ -29,10 +33,6 @@ router.get(
 router.put(
   '/:id',auth(),
   RequesListingControllers.updateRequest,
-);
-router.put(
-  '/cancel/:id',auth(),
-  RequesListingControllers.cancelRequest,
 );
 
 
