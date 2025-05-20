@@ -64,6 +64,11 @@ const viewRequestIntoDB = async (id:string,) => {
 
   });
 
+   if (!result) {
+        throw new AppError(httpStatus.NOT_FOUND, 'You are not found!');
+      }
+
+
   return  result
 };
 
@@ -125,6 +130,15 @@ const cancelRequestIntoDB = async (id: string) => {
 
 
 export const updateRequestIntoDB = async (id: string, senderId:string,requestStatus: string|any) => {
+
+    const isExist = await prisma.request.findFirst({
+    where: { id:id },
+  
+  });
+
+   if (!isExist) {
+        throw new AppError(httpStatus.NOT_FOUND, 'Request are not found!');
+      }
 
 
   const updatedRequest = await prisma.request.update({

@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { IListing } from './roommateListing.interface';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 
 
@@ -457,6 +459,10 @@ const getSingleRoomMateListingIntoDB = async (id: string) => {
    
     },
   });
+
+  if (!result) {
+        throw new AppError(httpStatus.NOT_FOUND, 'listing are not found!');
+      }
 
   return result;
 };

@@ -7,9 +7,10 @@ import { RequestDBServices } from './requst.service';
 
 
 
+
 const createRequest = catchAsync(async (req, res) => {
 
-  console.log('hello');
+
 
   req.body.userId= req.user.userId
   const result = await RequestDBServices.createRequestIntoDB(req.body);
@@ -47,8 +48,12 @@ const getMyRequest = catchAsync(async (req, res) => {
 const viewRequest = catchAsync(async (req, res) => {
 
 
+
+
   const data= await RequestDBServices.viewRequestIntoDB(req.params.id);
 
+
+  
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'view Request retrieved successfully',
@@ -59,7 +64,7 @@ const viewRequest = catchAsync(async (req, res) => {
 
 const updateRequest = catchAsync(async (req, res) => {
 
-console.log('jejejejejejjejejejejssssssssssssssssssssssssssssssssssejejjejejejej')
+
 
   const  data= await RequestDBServices.updateRequestIntoDB(req.params.id,req.user.userId,req.body);
 
@@ -76,7 +81,7 @@ console.log('jejejejejejjejejejejssssssssssssssssssssssssssssssssssejejjejejejej
 
 const cancelRequest = catchAsync(async (req, res) => {
 
- console.log('jejejejejejjejejejejejejjejejejej')
+ 
 
   const  data= await RequestDBServices.cancelRequestIntoDB(req.params.id);
 
