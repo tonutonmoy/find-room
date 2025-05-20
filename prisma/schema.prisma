@@ -278,7 +278,7 @@ model User {
   emailVerificationTokenExpires DateTime?
   createdAt                     DateTime   @default(now())
   updatedAt                     DateTime   @updatedAt
-
+  bio                           String?
   listing  Listing[]  @relation("UserListings")
   request  request[]  @relation("UserRequests")
   saveRoom saveRoom[] @relation("UserSavedRooms")

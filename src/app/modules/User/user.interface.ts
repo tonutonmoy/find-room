@@ -26,6 +26,7 @@
   createdAt: Date;
   updatedAt: Date;
   termsAndConditions?: boolean;
+  bio:string;
 
   // relations (can be IDs or full objects depending on use case)
   listings?: any[];

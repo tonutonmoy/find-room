@@ -69,6 +69,8 @@ const getFilteredRoomMateListings = catchAsync(async (req, res) => {
   });
 });
 
+
+
 // ------------------
 const getMyRoomMateListing = catchAsync(async (req, res) => {
  
