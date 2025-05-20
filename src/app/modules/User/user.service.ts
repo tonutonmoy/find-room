@@ -101,6 +101,8 @@ const getMyProfileFromDB = async (id: string) => {
       instagram: true,
       role: true,
       status: true,
+      bio:true,
+      age:true,
       createdAt: true,
       updatedAt: true,
     },
