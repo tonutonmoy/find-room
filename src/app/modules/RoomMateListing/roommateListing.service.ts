@@ -4,8 +4,6 @@ import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 
 
-
-
 const prisma = new PrismaClient();
 
 // Function to create a new RoomMateListing
@@ -37,7 +35,7 @@ export const createRoomMateListingIntoDB = async (payload: IListing | any) => {
       return listing;
     });
 
-    console.log(result, 'Listing with roommates created');
+  
     return result;
   } catch (error) {
     console.error('Error creating listing with roommates:', error);
@@ -658,6 +656,8 @@ const getMyRoomMateListingIntoDB = async (id:string,{ skip, limit }: { skip: num
     total,
   };
 };
+
+
 
 const getSingleRoomMateListingIntoDB = async (id: string) => {
   const result = await prisma.listing.findFirst({

@@ -11,8 +11,8 @@ const listingValidation = z.object({
     description: z.string({
       required_error: 'Description is required!',
     }),
-    preview: z.string().url({
-      message: 'Preview must be a valid URL!',
+    preview: z.string({
+   required_error: 'Preview is required!',
     }),
     streetNumber: z.string({
       required_error: 'Street number is required!',
@@ -62,7 +62,7 @@ const listingValidation = z.object({
       type: z.literal('Point'),
       coordinates: z.tuple([z.number(), z.number()]),
     }),
-    searchRadius: z.number().min(0).max(50),
+
     roommate: z.array(
       z.object({
         image: z.string().url({

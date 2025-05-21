@@ -32,7 +32,7 @@ const getMySendRequest = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: 'May Request retrieved successfully',
+    message: 'May Send Request retrieved successfully',
     meta: {
       limit,
       page,
@@ -53,7 +53,7 @@ const getMyReceiveRequest = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: 'May Request retrieved successfully',
+    message: 'My Receive Request retrieved successfully',
     meta: {
       limit,
       page,
@@ -76,7 +76,7 @@ const viewRequestUser = catchAsync(async (req, res) => {
   
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    message: 'view Request retrieved successfully',
+    message: 'view Request user retrieved successfully',
   
     data,
   });

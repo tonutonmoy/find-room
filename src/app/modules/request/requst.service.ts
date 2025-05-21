@@ -84,7 +84,7 @@ const viewRequestUserIntoDB = async (id:string,) => {
   const result = await prisma.user.findFirst({
     where:{id},
     
-  select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true,image:true,age:true,school:true,interests:true}
+  select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true,image:true,age:true,school:true,interests:true,bio:true,language:true}
 
   });
 
@@ -170,12 +170,15 @@ export const updateRequestIntoDB = async (id: string, senderId:string,requestSta
   const updatedRequest = await prisma.request.update({
     where: { id:id },
     data:{
-      requestStatus:requestStatus.requestStatus
+      requestStatus:requestStatus
     }
   });
 
+  
+  
+
   if (updatedRequest) {
-    await prisma.notification.create({
+    const result=  await prisma.notification.create({
       data: {
         senderId: senderId,
         reciverId: updatedRequest.userId, // assuming this is the request sender (the one who should be notified)
@@ -183,7 +186,11 @@ export const updateRequestIntoDB = async (id: string, senderId:string,requestSta
       },
     });
 
-    return updatedRequest
+
+ 
+    return   result 
+
+    
   }
 
 
