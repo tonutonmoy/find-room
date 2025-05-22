@@ -13,7 +13,7 @@ const  setupIndex= async()=> {
         },
       ],
     });
-    console.log('2dsphere index created successfully.');
+    
   } catch (error) {
     console.error('Error creating index:', error);
   } finally {

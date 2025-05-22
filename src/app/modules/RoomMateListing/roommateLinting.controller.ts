@@ -51,7 +51,7 @@ const getFilteredRoomMateListings = catchAsync(async (req, res) => {
     },
   };
 
-  const { data, total } = await RoomMateListingDBServices.getFilteredRoomMateListingsIntoDB(
+  const { data, meta } = await RoomMateListingDBServices.getFilteredRoomMateListingsIntoDB(
     filters,
     { skip, limit },req.query
   );
@@ -59,12 +59,7 @@ const getFilteredRoomMateListings = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Filtered room listings retrieved successfully',
-    meta: {
-      limit,
-      page,
-      total,
-      totalPage: Math.ceil(total / limit),
-    },
+    meta: meta,
     data,
   });
 });

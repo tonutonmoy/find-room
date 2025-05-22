@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 
 export const createSaveRoomIntoDB = async (payload: ISaveRoom | any) => {
 
-  console.log(payload)
+
   const isRoomExisting = await prisma.saveRoom.findFirst({
     where: {
       userId: payload.userId,

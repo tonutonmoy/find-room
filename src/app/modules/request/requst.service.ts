@@ -99,7 +99,7 @@ const viewRequestUserIntoDB = async (id:string,) => {
 
 
 const getNotificationIntoDB = async (id: string) => {
-  const result = await prisma.notification.findFirst({
+  const result = await prisma.notification.findMany({
     where: {
       reciverId: id,
     },
@@ -121,7 +121,8 @@ const getNotificationIntoDB = async (id: string) => {
           email: true,
           phoneNumber: true,
         },
-      },
+        
+      }
     },
   });
 
@@ -167,13 +168,18 @@ export const updateRequestIntoDB = async (id: string, senderId:string,requestSta
       }
 
 
-  const updatedRequest = await prisma.request.update({
-    where: { id:id },
-    data:{
-      requestStatus:requestStatus
-    }
-  });
+ const updatedRequest = await prisma.request.update({
+  where: { id: id },
+  data: {
+    requestStatus: requestStatus
+  },
+  include: {
+    listing: true
+  }
+});
 
+
+  
   
   
 
@@ -182,11 +188,13 @@ export const updateRequestIntoDB = async (id: string, senderId:string,requestSta
       data: {
         senderId: senderId,
         reciverId: updatedRequest.userId, // assuming this is the request sender (the one who should be notified)
-        requestStatus:updatedRequest.requestStatus
-      },
+        requestStatus:updatedRequest.requestStatus,
+        listing:updatedRequest.listing
+        
+      }
     });
 
-
+console.log(result,'result')
  
     return   result 
 

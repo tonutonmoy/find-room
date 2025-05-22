@@ -404,7 +404,7 @@ const verifyOtp = async (email: string, otp: string) => {
 
 const resetPassword = async (email: string, newPassword: string) => {
 
-  console.log(email,newPassword)
+  
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
