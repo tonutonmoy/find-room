@@ -32,6 +32,7 @@ const getFilteredRoomMateListings = catchAsync(async (req, res) => {
     minRent: req.query.minRent || 0,
     maxRent: req.query.maxRent || 10000,
     availableFrom: req.query.availableFrom || '',
+    lastDateOfavailable: req.query.lastDateOfavailable || '',
     language: req.query.language || '',
     minAge: req.query.minAge || 0,
     maxAge: req.query.maxAge || 100,
@@ -88,6 +89,8 @@ const getMyRoomMateListing = catchAsync(async (req, res) => {
     data,
   });
 });
+
+
 const getSingleRoomMateListing = catchAsync(async (req, res) => {
  
   const{skip,limit,page}=  calculatePagination({})
@@ -105,12 +108,42 @@ const getSingleRoomMateListing = catchAsync(async (req, res) => {
 });
 
 
+const updateSingleRoomMateListingStatus = catchAsync(async (req, res) => {
+ 
+
+  const data = await RoomMateListingDBServices.updateSingleRoomMateListingStatusIntoDB(req.params.id,req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'update Listing status successfully',
+   
+    data,
+  });
+});
+
+
+const updateRoomMateListing = catchAsync(async (req, res) => {
+ 
+
+  const data = await RoomMateListingDBServices.updateRoomMateListingIntoDB(req.params.id,req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'update Listing  successfully',
+   
+    data,
+  });
+});
+
+
 
 export const RoomMatelistingControllers = {
   addRoomMateListing,
   getMyRoomMateListing,
   getFilteredRoomMateListings,
-  getSingleRoomMateListing
+  getSingleRoomMateListing,
+  updateSingleRoomMateListingStatus,
+  updateRoomMateListing
 
   
 };

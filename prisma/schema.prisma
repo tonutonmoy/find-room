@@ -106,6 +106,7 @@ model Listing {
   bathrooms            Float
   size                 Float
   availableFrom        DateTime
+  lastDateOfavailable  DateTime
   rentCHF              Float
   amenitiesAndServices String[]
   additionalExpenses   Boolean       @default(true)

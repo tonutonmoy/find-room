@@ -24,6 +24,14 @@ router.get(
   '/:id',auth(),
   RoomMatelistingControllers.getSingleRoomMateListing,
 );
+router.patch(
+  '/:id',auth(),
+  RoomMatelistingControllers.updateSingleRoomMateListingStatus,
+);
+router.put(
+  '/:id',auth(),
+  RoomMatelistingControllers.updateRoomMateListing,
+);
 
 
 export const RoomateListingRouters = router;

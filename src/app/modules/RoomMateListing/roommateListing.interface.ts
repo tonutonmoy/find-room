@@ -35,6 +35,7 @@ export interface IListing {
   bathrooms: number;
   size: number;
   availableFrom: Date | string;
+  lastDateOfavailable: Date | string;
   rentCHF: number;
   amenitiesAndServices: string[];
   additionalExpenses: boolean;

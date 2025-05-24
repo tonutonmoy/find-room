@@ -38,6 +38,9 @@ const listingValidation = z.object({
     availableFrom: z.string().refine((val) => !isNaN(Date.parse(val)), {
       message: 'Invalid date format for availableFrom!',
     }),
+    lastDateOfavailable: z.string().refine((val) => !isNaN(Date.parse(val)), {
+      message: 'Invalid date format for availableFrom!',
+    }),
     rentCHF: z.number({
       required_error: 'Rent (CHF) is required!',
     }),
