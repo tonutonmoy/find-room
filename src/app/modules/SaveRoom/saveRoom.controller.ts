@@ -26,7 +26,7 @@ const createSaveRoom = catchAsync(async (req, res) => {
 
 
 const getMySaveRoom = catchAsync(async (req, res) => {
-   const{skip,limit,page}=  calculatePagination({})
+   const{skip,limit,page}=  calculatePagination(req.query)
 
   const { data, total }  = await RaveRoomDBServices.getSaveRoomIntoDB(req.user.userId,{ skip, limit });
 

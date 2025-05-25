@@ -69,8 +69,9 @@ const getFilteredRoomMateListings = catchAsync(async (req, res) => {
 
 // ------------------
 const getMyRoomMateListing = catchAsync(async (req, res) => {
+
  
-  const{skip,limit,page}=  calculatePagination({})
+  const{skip,limit,page}=  calculatePagination(req.query)
 
 
 
@@ -93,11 +94,11 @@ const getMyRoomMateListing = catchAsync(async (req, res) => {
 
 const getSingleRoomMateListing = catchAsync(async (req, res) => {
  
-  const{skip,limit,page}=  calculatePagination({})
+  const{skip,limit,page}=  calculatePagination(req.query)
 
 
 
-  const data = await RoomMateListingDBServices.getSingleRoomMateListingIntoDB(req.params.id);
+  const data = await RoomMateListingDBServices.getSingleRoomMateListingIntoDB(req.params.id,{skip,limit});
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

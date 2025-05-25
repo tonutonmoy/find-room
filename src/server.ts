@@ -22,7 +22,8 @@ async function main() {
       origin: [
         "http://localhost:3000",
         "http://localhost:3001",
-        "https://sapo-frontend.vercel.app"
+        "https://sapo-frontend.vercel.app",
+        "http://10.0.10.55:5000 "
       ],
       methods: ["GET", "POST"],
       credentials: true,

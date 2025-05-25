@@ -26,7 +26,7 @@ const createRequest = catchAsync(async (req, res) => {
 
 
 const getMySendRequest = catchAsync(async (req, res) => {
-  const{skip,limit,page}=  calculatePagination({})
+  const{skip,limit,page}=  calculatePagination(req.query)
 
   const { data, total }= await RequestDBServices.getMySendRequestIntoDB(req.user.userId,{ skip, limit });
 
@@ -47,7 +47,7 @@ const getMySendRequest = catchAsync(async (req, res) => {
 
 });
 const getMyReceiveRequest = catchAsync(async (req, res) => {
-  const{skip,limit,page}=  calculatePagination({})
+  const{skip,limit,page}=  calculatePagination(req.query)
 
   const { data, total }= await RequestDBServices.getMyReceiveRequestIntoDB(req.params.id,{ skip, limit });
 

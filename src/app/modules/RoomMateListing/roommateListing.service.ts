@@ -340,7 +340,7 @@ export const getFilteredRoomMateListingsIntoDB = async (
     };
   }
 
-  console.log(whereConditions,)
+
 
   const total = await prisma.listing.count({ where: whereConditions });
 
@@ -467,28 +467,52 @@ export const getFilteredRoomMateListingsIntoDB = async (
 
 // end
 
+const getMyRoomMateListingIntoDB = async (id: string, { skip, limit }: { skip: number; limit: number }) => {
+ 
 
-const getMyRoomMateListingIntoDB = async (id:string,{ skip, limit }: { skip: number; limit: number }) => {
+ 
+    const result = await prisma.listing.findMany({
+      where: { userId: id },
+      skip: skip, // Number of records to skip
+      take: limit, // Number of records to take (per page)
+      include: {
+        roommate: true, // Include related roommate data
+        request: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                phoneNumber: true
+              }
+            }
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc', // Order by creation date, e.g., newest first
+      },
+    });
 
+    const total = await prisma.listing.count({
+      where: { userId: id },
+    });
 
-  const result = await prisma.listing.findMany({
-    where:{userId:id},skip,
-    take: limit,include:{roommate:true,request:{include:{user:{select:{id:true,firstName:true,lastName:true,email:true,phoneNumber:true}}}}}
+    console.log(`Found ${result.length} listings for current page. Total listings: ${total}`);
 
-  });
- const total = await prisma.listing.count({
-    where: { userId: id },
-  });
+    return {
+      data: result,
+      total,
+    };
 
-  return {
-    data: result,
-    total,
-  };
 };
 
 
 
-const getSingleRoomMateListingIntoDB = async (id: string) => {
+
+const getSingleRoomMateListingIntoDB = async (id: string, { skip, limit }: { skip: number; limit: number }) => {
   const result = await prisma.listing.findFirst({
     where: { id },
     include: {
@@ -496,6 +520,8 @@ const getSingleRoomMateListingIntoDB = async (id: string) => {
       roommate:true,
    
     },
+     skip: skip, 
+      take: limit, 
   });
 
   if (!result) {
